@@ -1,0 +1,29 @@
+name: 'Tag a git version'
+description: 'Tagging a repo with a gitVersion'
+
+inputs:
+  configFilePath:
+    description: 'Path to the GitVersion configuration file'
+    required: true
+    default: 'gitversion.yml'
+
+runs:
+  using: composite
+  steps:
+  - name: Install GitVersion
+    uses: gittools/actions/gitversion/setup@v0
+    with:
+      versionSpec: '5.x'
+  - name: Determine Version
+    id: gitversion
+    uses: gittools/actions/gitversion/execute@v0
+    with:
+      useConfigFile: true
+      configFilePath: ${{ inputs.configFilePath }}
+  - name: tag the repo
+    if: ${{ github.ref == 'refs/heads/main' }}
+    shell: bash
+    run: |
+      echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+      git tag ${{ steps.gitversion.outputs.semVer }}
+      git push origin ${{ steps.gitversion.outputs.semVer }}
