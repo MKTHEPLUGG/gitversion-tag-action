@@ -21,7 +21,7 @@ runs:
       useConfigFile: true
       configFilePath: ${{ inputs.configFilePath }}
   - name: tag the repo
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     shell: bash
     run: |
       echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
