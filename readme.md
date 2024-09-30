@@ -1,4 +1,4 @@
-# Documentation: Tag a Git Version Action
+# Tag a Git Version Action
 
 ## Overview
 
